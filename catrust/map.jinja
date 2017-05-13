@@ -6,25 +6,25 @@
 #base dictionary (defaults for all os's, will be merged with and overridden by os_family pillars)
 base:
   cadir: '/etc/catrust/catrust.ini'
-  cafilext: 'pem'
+  cafileext: 'pem'
   updatecmd: 'update-ca-trust'
 
 #nondebian / nonredhat (overrides base, is taken when os_family grain is not in available os's)
 default:
   cadir: '/etc/pki/ca-trust/source/anchors'
-  cafilext: 'pem'
+  cafileext: 'pem'
   updatecmd: 'update-ca-trust'
 
 #debian (overrides base, is taken when os_family grain is Debian)
 Debian: 
   cadir: '/usr/local/share/ca-certificates'
-  cafilext: 'crt'
+  cafileext: 'crt'
   updatecmd: 'update-ca-certificates'
 
 #redhat (overrides base, is taken when os_family grain is RedHat)
 RedHat: 
   cadir: '/etc/pki/ca-trust/source/anchors'
-  cafilext: 'pem'
+  cafileext: 'pem'
   updatecmd: 'update-ca-trust'
 
 {%- endload %}

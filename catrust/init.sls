@@ -16,5 +16,5 @@ catrust__cacert_{{cacert}}:
 {% endfor%}
 
 catrust__update:
-  cmd.watch:
+  cmd.wait:
     - name: {{catrust.updatecmd}}

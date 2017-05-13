@@ -1,0 +1,17 @@
+catrust:
+  lookup:
+    #override default settings
+    cadir: '/etc/mycatrust/catrust.ini'
+    cafilext: 'pk12'
+    updatecmd: 'myupdate-ca-command'
+
+  # define cacert directly in pillar
+  example.org:
+    cert: |
+      <the cert indented>
+
+  #or load it from a file in <pillar_root>/catrust/files/<cafile>
+  {% macro load_example_org_cacert() %}{% include "catrust/files/example.org.crt"%}{% endmacro %}
+  example.org:
+    cert: |
+      {{ load_example_org_cacert()|indent(6) }}

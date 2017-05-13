@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+
+{%- load_yaml as catrust_os_family %}
+
+#base dictionary (defaults for all os's, will be merged with and overridden by os_family pillars)
+base:
+  cadir: '/etc/catrust/catrust.ini'
+  cafilext: 'pem'
+  updatecmd: 'update-ca-trust'
+
+#nondebian / nonredhat (overrides base, is taken when os_family grain is not in available os's)
+default:
+  cadir: '/etc/pki/ca-trust/source/anchors'
+  cafilext: 'pem'
+  updatecmd: 'update-ca-trust'
+
+#debian (overrides base, is taken when os_family grain is Debian)
+Debian: 
+  cadir: '/usr/local/share/ca-certificates'
+  cafilext: 'crt'
+  updatecmd: 'update-ca-certificates'
+
+#redhat (overrides base, is taken when os_family grain is RedHat)
+RedHat: 
+  cadir: '/etc/pki/ca-trust/source/anchors'
+  cafilext: 'pem'
+  updatecmd: 'update-ca-trust'
+
+{%- endload %}
+{%- set catrust_default_plus_pillar_lookup = salt['grains.filter_by'](catrust_os_family, grain='os_family', merge=salt['pillar.get']('catrust:lookup'), default='default', base='base') %}
+{%- set catrust = salt['pillar.get']('catrust', default=catrust_default_plus_pillar_lookup, merge=True) %}
